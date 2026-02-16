@@ -7,10 +7,10 @@
     box-sizing: border-box;
 }
 
-/* Page layout: centered, warm off-white background */
+/* Page layout: centered, Blade Runner dark atmosphere */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f7f7f4;
+    background-color: #0a0e17;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,6 +21,17 @@ body {
 /* ============================================
    Cards layout
    ============================================ */
+@keyframes glow-pulse {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+}
+
 .cards-container {
     display: flex;
     flex-direction: row;
@@ -32,14 +43,57 @@ body {
 
 /* Single pricing card: fixed width, flex column */
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-height: 380px;
-    background-color: #f2f1ed;
+    background-color: #0d1321;
+    border: 1px solid rgba(0, 229, 255, 0.25);
     border-radius: 4px;
     padding: 16px;
     width: 320px;
     flex-shrink: 0;
+    overflow: visible;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+}
+
+/* Animated glow pulse behind each card — fractal noise drives organic movement */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: -35px;
+    border-radius: 12px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 229, 255, 0.5) 0%,
+        rgba(0, 229, 255, 0.2) 30%,
+        rgba(0, 229, 255, 0.08) 55%,
+        transparent 75%
+    );
+    z-index: -1;
+    pointer-events: none;
+    filter: url(#glow-noise);
+    animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+/* Hover: card fills with inner glow, content stays on top */
+.card:hover {
+    background-color: #0f1a2a;
+    border-color: rgba(0, 229, 255, 0.6);
+    box-shadow:
+        0 0 35px rgba(0, 229, 255, 0.25),
+        inset 0 0 80px rgba(0, 229, 255, 0.08);
+}
+
+.card:hover::before {
+    animation: glow-pulse 1.2s ease-in-out infinite;
+}
+
+/* Ensure all card content stays visible above pseudo-elements */
+.card > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Card header area: title, price, features */
@@ -53,14 +107,14 @@ body {
     font-size: 22px;
     line-height: 28px;
     font-weight: 400;
-    color: #26251e;
+    color: #e8f4f8;
     margin-bottom: 8px;
 }
 
 /* Price row: amount + period (e.g. $20 /mo.) */
 .card-price {
     font-size: 20px;
-    color: rgba(38, 37, 30, 0.5);
+    color: rgba(0, 229, 255, 0.8);
     display: inline-flex;
     align-items: baseline;
 }
@@ -69,13 +123,13 @@ body {
 .card-price-amount {
     font-size: 22px;
     font-weight: 400;
-    color: rgba(38, 37, 30, 0.5);
+    color: rgba(0, 229, 255, 0.9);
 }
 
 /* Billing period (e.g. /mo.) */
 .card-price-period {
     font-size: 14px;
-    color: rgba(38, 37, 30, 0.5);
+    color: rgba(0, 229, 255, 0.7);
 }
 
 /* Features section wrapper */
@@ -86,7 +140,7 @@ body {
 /* "Includes:" or "Everything in Hobby, plus:" label */
 .includes-text {
     font-size: 16px;
-    color: rgba(38, 37, 30, 0.5);
+    color: rgba(255, 0, 255, 0.7);
     margin: 16px 0px;
 }
 
@@ -102,70 +156,74 @@ body {
     align-items: center;
     margin-bottom: 8px;
     font-size: 16px;
-    color: #26251e;
+    color: #c8d4e0;
 }
 
 /* Checkmark icon (✓) before each feature */
 .checkmark {
-    color: #26251e;
+    color: #00e5ff;
     font-size: 14px;
     margin-right: 10px;
     font-weight: 400;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
 }
 
 /* ============================================
    Buttons (CTAs)
    ============================================ */
-/* Base: pill shape, light gray (secondary style) */
+/* Base: pill shape, neon cyan outline (secondary style) */
 .download-button {
     margin-top: auto;
     width: fit-content;
-    background-color: #e6e5e0;
-    border: none;
+    background-color: transparent;
+    border: 1px solid rgba(0, 229, 255, 0.5);
     border-radius: 999px;
     padding: 14px 24px;
     font-size: 16px;
     font-weight: 500;
-    color: #333;
+    color: #00e5ff;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 /* Hover state */
 .download-button:hover {
-    background-color: #D8D6CE;
+    background-color: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
 }
 
 .download-button:active {
-    background-color: #D8D6CE;
+    background-color: rgba(0, 229, 255, 0.25);
 }
 
-/* Primary variant: dark, emphasized */
+/* Primary variant: neon magenta */
 .download-button.primary {
-    background-color: #111;
-    color: #fff;
+    background-color: #ff00ff;
+    border-color: #ff00ff;
+    color: #0a0e17;
 }
 
 .download-button.primary:hover {
-    background-color: #333;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
 }
 
 .download-button.primary:active {
-    background-color: #333;
+    background-color: #e600e6;
 }
 
 .download-button.tertiary {
     background-color: transparent;
-    border: 1px solid #e0dfdb;
-    color: #333;
+    border: 1px solid rgba(255, 0, 255, 0.4);
+    color: #ff66ff;
 }
 
 .download-button.tertiary:hover {
-    background-color: #edebe2;
+    background-color: rgba(255, 0, 255, 0.1);
+    box-shadow: 0 0 12px rgba(255, 0, 255, 0.3);
 }
 
 .download-button.tertiary:active {
-    background-color: #D8D6CE;
+    background-color: rgba(255, 0, 255, 0.2);
 }
 
 /* ============================================
@@ -178,13 +236,14 @@ body {
     left: 50%;
     transform: translateX(-50%);
     font-size: 14px;
-    color: #666;
-    background: #fff;
+    color: rgba(0, 229, 255, 0.8);
+    background: #0d1321;
+    border: 1px solid rgba(0, 229, 255, 0.3);
     padding: 8px 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
 }
 
 .page-label strong {
-    color: #333;
+    color: #00e5ff;
 }

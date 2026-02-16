@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Plans — JSX version</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="glow.js" defer></script>
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
@@ -24,13 +25,16 @@
 
         // Same card UI, written as a JSX component (HTML-like syntax inside JavaScript)
         // This component is reusable - we can create multiple cards by passing different data
-        function PricingCard({ title, price, includesText, features, buttonText, buttonVariant }) {
+        function PricingCard({ title, price, priceperiod, includesText, features, buttonText, buttonVariant }) {
             return (
                 // JSX uses "className" instead of "class" because "class" is a reserved word in JavaScript
                 <div className="card">
                     {/* Curly braces { } let you insert JavaScript expressions into JSX */}
                     <h1 className="card-title">{title}</h1>
-                    <p className="card-price">{price}</p>
+                    <p className="card-price">
+                        <span className="card-price-amount">{price}</span>
+                        <span className="card-price-period">{priceperiod}</span>
+                    </p>
                     <div className="card-content">
                         <p className="includes-text">{includesText}</p>
                         <ul className="features-list">
@@ -56,6 +60,7 @@
             const hobbyPlan = {
                 title: 'Hobby',
                 price: 'Free',
+                priceperiod: '',
                 includesText: 'Includes:',
                 features: [
                     'No credit card required',
@@ -69,7 +74,8 @@
             };
             const proPlan = {
                 title: 'Pro',
-                price: '$20/mo.',
+                price: '$20',
+                priceperiod: '/mo.',
                 includesText: 'Everything in Hobby, plus:',
                 features: [
                     'Extended limits on Agent',
@@ -82,6 +88,7 @@
             const orgPlan = {
                 title: 'Organizations',
                 price: 'Custom',
+                priceperiod: null,
                 includesText: 'Everything in Pro, plus, plus:',
                 features: [
                     'Great org options',
